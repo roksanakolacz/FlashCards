@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Upload Excel File</title>
+    <style>
+        .container {
+            margin-top: 50px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Upload Excel File</h1>
+    <form method="POST" action="/upload" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".xlsx">
+        <br><br>
+        <input type="submit" value="Upload">
+    </form>
+</div>
+
+<h1>Word list</h1>
+<table>
+    <tr>
+        <th>Word</th>
+        <th>Word translated</th>
+    </tr>
+    <th:block th:each="word : ${words}">
+        <tr>
+            <td th:text="${word.word}"></td>
+            <td th:text="${word.translatedWord}"></td>
+        </tr>
+    </th:block>
+</table>
+
+
+</body>
+</html>
