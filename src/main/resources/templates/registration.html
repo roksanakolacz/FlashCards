@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <title>Registration</title>
+  <style>
+    body {
+      background-color: #fffacd; /* Pastelowy żółty */
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      background-color: #ffecb3; /* Jasny pastelowy żółty */
+      color: #634b63; /* Ciemny pastelowy fiolet */
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 5px;
+    }
+
+    .title {
+      text-decoration: none;
+      color: #634b63; /* Ciemny pastelowy fiolet */
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    h2 {
+      text-align: center;
+      color: #634b63; /* Ciemny pastelowy fiolet */
+    }
+
+    form {
+      max-width: 400px;
+      margin: 0 auto;
+      background-color: #ffecb3; /* Jasny pastelowy żółty */
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+      color: #634b63; /* Ciemny pastelowy fiolet */
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="email"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      box-sizing: border-box;
+    }
+
+    button[type="submit"] {
+      margin-top: 10px;
+      display: block;
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      background-color: #ffe080; /* Jasny pastelowy żółty */
+      color: #634b63; /* Ciemny pastelowy fiolet */
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #fff999; /* Jasniejszy odcień pastelowego żółtego */
+    }
+
+    .login-element {
+      margin-top: 10px;
+    }
+
+    .error-message {
+      margin-top: 10px;
+      background-color: #ffffff; /* Biały */
+      color: #03cc00; /* Zielony */
+      padding: 10px;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <a th:href="@{/home}" class="title">Flash Cards</a>
+</header>
+<h2>Registration</h2>
+<form th:object="${user}" action="/register" method="post">
+  <div class="login-element">
+    <label for="username">User name:</label>
+    <input type="text" id="username" name="username" required />
+  </div>
+  <div class="login-element">
+    <label for="passwordChars">Password: </label>
+    <input type="password" id="passwordChars" name="passwordChars" required />
+  </div>
+  <div class="login-element">
+    <label for="email">E-mail</label>
+    <input type="email" id="email" name="email" required />
+  </div>
+  <div class="login-element">
+    <label for="preferredLanguage">Which language do you want to learn? Select one.</label>
+    <select id="preferredLanguage" name="preferredLanguage" required>
+      <option th:each="language : ${T(com.example.FlashCards.model.Idiom).values()}"
+              th:value="${language}" th:text="${language}"></option>
+    </select>
+  </div>
+  <button type="submit">Register</button>
+</form>
+
+<div th:if="${error}" class="error-message">
+  <span th:text="${error}"></span>
+</div>
+
+<div th:if="${errorEmail}" class="error-message">
+  <span th:text="${errorEmail}"></span>
+</div>
+
+<div th:if="${errorUsername}" class="error-message">
+  <span th:text="${errorUsername}"></span>
+</div>
+
+</body>
+</html>

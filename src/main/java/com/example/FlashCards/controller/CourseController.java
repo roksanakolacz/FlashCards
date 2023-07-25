@@ -5,7 +5,6 @@ import com.example.FlashCards.model.Word;
 import com.example.FlashCards.model.WordDTO;
 import com.example.FlashCards.service.WordService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +16,7 @@ import java.io.File;
 import java.util.List;
 
 @Controller
-public class WordController {
+public class CourseController {
 
     @Autowired
     private ExcelProcessor excelProcessor;

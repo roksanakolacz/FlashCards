@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Log in</title>
+  <style>
+    body {
+      background-color: #fffacd; /* Pastelowy żółty */
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      background-color: #ffecb3; /* Jasny pastelowy żółty */
+      color: #634b63; /* Ciemny pastelowy fiolet */
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 5px;
+    }
+
+    .title {
+      text-decoration: none;
+      color: #634b63; /* Ciemny pastelowy fiolet */
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    h2 {
+      text-align: center;
+      color: #634b63; /* Ciemny pastelowy fiolet */
+    }
+
+    form {
+      max-width: 400px;
+      margin: 0 auto;
+      background-color: #ffecb3; /* Jasny pastelowy żółty */
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+      color: #634b63; /* Ciemny pastelowy fiolet */
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      box-sizing: border-box;
+    }
+
+    .login-element {
+      margin-top: 10px;
+    }
+
+    .button {
+      margin-top: 10px;
+      display: block;
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      background-color: #ffe080; /* Jasny pastelowy żółty */
+      color: #634b63; /* Ciemny pastelowy fiolet */
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    button[type="submit"] {
+      margin-top: 10px;
+      display: block;
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      background-color: #ffe080; /* Jasny pastelowy żółty */
+      color: #634b63; /* Ciemny pastelowy fiolet */
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #fff999; /* Jasniejszy odcień pastelowego żółtego */
+    }
+
+    .register {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      border-radius: 5px;
+    }
+
+    .error-message {
+      border: 1px solid #ff0000;
+      background-color: #ffe0e0;
+      color: #ff0000;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <a th:href="@{/home}" class="title">Flash Cards</a>
+</header>
+<h2>Log in</h2>
+<form action="/login" method="post">
+  <div class="login-element">
+    <label for="username">User name</label>
+    <input type="text" id="username" name="username" required />
+  </div>
+  <div class="login-element">
+    <label for="passwordChars">Password</label>
+    <input type="password" id="passwordChars" name="passwordChars" required />
+  </div>
+  <div th:if="${error}" class="error-message">
+    <p th:text="${error}"></p>
+  </div>
+  <button type="submit" class="button">Log in</button>
+</form>
+<div class="register">
+  <span>You don't have an account?</span>
+  <a class="button" th:href="@{/register}">Sign up</a>
+</div>
+</body>
+</html>
