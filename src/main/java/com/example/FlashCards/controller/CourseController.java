@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.util.List;
@@ -32,30 +33,43 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
 
-    @Autowired
-    private LoginSession loginSession;
 
-    private List<WordDTO> wordDTOList;
 
     @GetMapping("/courses/new")
-    public String getCreateCoursePage(Model model) {
+    public String getCreateCoursePage(Model model, HttpSession session) {
+        List<WordDTO> wordDTOList = (List<WordDTO>) session.getAttribute("wordList");
+
         model.addAttribute("wordsDTOList", wordDTOList);
         return "createCourse";
     }
 
     @PostMapping("/courses/new")
-    public String addCourse(Course course, HttpSession session){
+    public String saveCourse(Course course, HttpSession session, Model model, RedirectAttributes redirectAttributes){
+
+        List<WordDTO> wordDTOList = (List<WordDTO>) session.getAttribute("wordList");
+
+        if (wordDTOList == null || wordDTOList.isEmpty()) {
+            redirectAttributes.addFlashAttribute("excelFileNotUploaded", true);
+            return "redirect:/courses/new";
+        }
+
         Long userId = (Long) session.getAttribute("userId");
         course.setUserId(userId);
+        Course savedCourse = courseService.saveCourse(course);
 
-        wordService.saveWordsToDatabase(wordDTOList, course.getCourseId());
-        courseService.saveCourse(course);
+        wordService.saveWordsToDatabase(wordDTOList, savedCourse.getCourseId());
+
+        model.addAttribute("courseAdded", true);
+
+        session.invalidate();
+
 
         return "createCourse";
     }
 
     @PostMapping("/courses/words")
-    public String uploadFile(@RequestParam("file") MultipartFile file, Model model) {
+    public String uploadExcelFile(@RequestParam("file") MultipartFile file, Model model, HttpSession session) {
+
         try {
             String originalFileName = file.getOriginalFilename();
             String tempDir = System.getProperty("java.io.tmpdir");
@@ -64,7 +78,8 @@ public class CourseController {
             File destFile = new File(filePath);
             file.transferTo(destFile);
 
-            wordDTOList = excelProcessor.processExcelFile(filePath);
+            List<WordDTO> wordDTOList = excelProcessor.processExcelFile(filePath);
+            session.setAttribute("wordList", wordDTOList);
 
 
             return "redirect:/courses/new";

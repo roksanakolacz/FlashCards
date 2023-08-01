@@ -19,8 +19,11 @@ public class WordService {
 
     public void saveWordsToDatabase(List<WordDTO> words, Long courseId) {
 
-        words.stream()
-                .forEach(wordDTO -> wordRepository.save(wordMapper.mapToEntity(wordDTO)).setCourseId(courseId));
+        for (WordDTO wordDTO : words) {
+            Word wordEntity = wordMapper.mapToEntity(wordDTO);
+            wordEntity.setCourseId(courseId);
+            wordRepository.save(wordEntity);
+        }
     }
 
     public List<Word> getAllWords() {

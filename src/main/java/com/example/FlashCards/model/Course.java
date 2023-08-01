@@ -33,7 +33,7 @@ public class Course {
 
     private Long userId;
 
-    private LocalDateTime date;
+    private LocalDateTime date = LocalDateTime.now();
 
     @OneToMany
     @JoinColumn(name="courseId")
@@ -44,7 +44,6 @@ public class Course {
         this.title = title;
         this.level = level;
         this.subject = subject;
-        this.date = LocalDateTime.now();
         this.wordList = wordList;
     }
 }

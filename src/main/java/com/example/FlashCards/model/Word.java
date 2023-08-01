@@ -23,8 +23,8 @@ public class Word {
     private String translatedWord;
     private Long courseId;
 
-    private Boolean isTrained;
-    private LocalDateTime date;
+    private Boolean isTrained = false;
+    private LocalDateTime date = LocalDateTime.now();;
 
     public Word(String word, String translatedWord, Long courseId) {
         this.word = word;

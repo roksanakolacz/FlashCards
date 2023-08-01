@@ -13,9 +13,9 @@ public class CourseService {
     private CourseRepository courseRepository;
     private WordService wordService;
 
-    public void saveCourse(Course course){
+    public Course saveCourse(Course course){
 
-        courseRepository.save(course);
+        return courseRepository.save(course);
 
     }
 
