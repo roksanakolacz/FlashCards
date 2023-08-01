@@ -21,10 +21,6 @@ public class HomeController {
     private UserService userService;
 
 
-    @GetMapping("/courses")
-    public String getCoursesList() {
-        return "browseCourses";
-    }
 
     @GetMapping("/random-course")
     public String getRandomWordCourse() {

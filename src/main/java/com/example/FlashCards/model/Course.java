@@ -46,4 +46,13 @@ public class Course {
         this.subject = subject;
         this.wordList = wordList;
     }
+
+
+    public int getWordCount() {
+        if (wordList == null) {
+            return 0;
+        }
+        return wordList.size();
+    }
+
 }

@@ -34,6 +34,14 @@ public class CourseController {
     private CourseService courseService;
 
 
+    @GetMapping("/courses")
+    public String getAllCourses(HttpSession session, Model model){
+            Long userId = (Long) session.getAttribute("userId");
+            List<Course> courses = courseService.getCoursesForUser(userId);
+            model.addAttribute("courses", courses);
+            return "browseCourses";
+    }
+
 
     @GetMapping("/courses/new")
     public String getCreateCoursePage(Model model, HttpSession session) {
@@ -61,7 +69,7 @@ public class CourseController {
 
         model.addAttribute("courseAdded", true);
 
-        session.invalidate();
+
 
 
         return "createCourse";
