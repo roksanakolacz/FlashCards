@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,11 +22,14 @@ public class Word {
     private String word;
     private String translatedWord;
     private Long courseId;
+
     private Boolean isTrained;
+    private LocalDateTime date;
 
     public Word(String word, String translatedWord, Long courseId) {
         this.word = word;
         this.translatedWord = translatedWord;
         this.courseId = courseId;
+        this.date = LocalDateTime.now();
     }
 }

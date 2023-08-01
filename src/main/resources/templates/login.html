@@ -2,46 +2,59 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Log in</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-1HgtlvYw+UGvG5UJxWg0alWhjhId3NK3j1i4JAvFj9n8PSejFXF6gW6FfnC3gy4I+3XkE7LRz0PXhxE+D36Ig==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
+
     body {
-      background-color: #fffacd; /* Pastelowy żółty */
       font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 20px;
+      padding: 0;
+      background: linear-gradient(135deg, #ffe080, #ffbf80);
+
     }
 
+    /* Nagłówek strony */
     header {
       background-color: #ffecb3; /* Jasny pastelowy żółty */
       color: #634b63; /* Ciemny pastelowy fiolet */
-      padding: 10px;
+      padding: 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Cień na nagłówku */
+      margin-bottom: 30px;
     }
 
     .title {
       text-decoration: none;
       color: #634b63; /* Ciemny pastelowy fiolet */
-      font-size: 24px;
+      font-size: 32px;
       font-weight: bold;
+      text-align: left;
     }
 
+    /* Formularz logowania */
     h2 {
-      text-align: center;
+      text-align: left;
       color: #634b63; /* Ciemny pastelowy fiolet */
+      margin-bottom: 20px;
     }
 
     form {
       max-width: 400px;
       margin: 0 auto;
-      background-color: #ffecb3; /* Jasny pastelowy żółty */
+      background-color: #fffacd; /* Pastelowy żółty */
       padding: 20px;
-      border-radius: 5px;
+      border-radius: 10px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: left;
     }
 
     label {
       display: block;
-      margin-bottom: 10px;
+      margin-bottom: 5px;
       font-weight: bold;
       color: #634b63; /* Ciemny pastelowy fiolet */
     }
@@ -57,54 +70,75 @@
     }
 
     .login-element {
-      margin-top: 10px;
+      margin-top: 15px;
     }
 
     .button {
-      margin-top: 10px;
+      margin-top: 20px;
       display: block;
       width: 100%;
-      padding: 10px;
-      font-size: 16px;
+      padding: 12px;
+      font-size: 18px;
+      font-weight: bold;
       background-color: #ffe080; /* Jasny pastelowy żółty */
       color: #634b63; /* Ciemny pastelowy fiolet */
       border: none;
-      border-radius: 3px;
+      border-radius: 5px;
       cursor: pointer;
       text-align: center;
       text-decoration: none;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Cień na przycisku */
+      transition: background-color 0.3s, transform 0.2s;
     }
 
-    button[type="submit"] {
-      margin-top: 10px;
-      display: block;
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      background-color: #ffe080; /* Jasny pastelowy żółty */
-      color: #634b63; /* Ciemny pastelowy fiolet */
-      border: none;
-      border-radius: 3px;
-      cursor: pointer;
+    .button:hover {
+      background-color: #ffd700; /* Świecący złoty */
+      transform: scale(1.05); /* Powiększenie przycisku po najechaniu */
     }
 
-    button[type="submit"]:hover {
-      background-color: #fff999; /* Jasniejszy odcień pastelowego żółtego */
-    }
-
+    /* Sekcja z linkiem do rejestracji */
     .register {
       max-width: 400px;
       margin: 0 auto;
       padding: 20px;
+      border-radius: 10px;
+      background-color: #fffacd; /* Pastelowy żółty */
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Cień na ramce */
+      text-align: center;
+    }
+
+    .register span {
+      color: #634b63; /* Ciemny pastelowy fiolet */
+      font-size: 18px;
+    }
+
+    .register a {
+      display: block;
+      margin-top: 15px;
+      padding: 12px;
+      font-size: 18px;
+      font-weight: bold;
+      background-color: #ffe080; /* Jasny pastelowy żółty */
+      color: #634b63; /* Ciemny pastelowy fiolet */
+      border: none;
       border-radius: 5px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Cień na przycisku */
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .register a:hover {
+      background-color: #ffd700; /* Świecący złoty */
+      transform: scale(1.05); /* Powiększenie przycisku po najechaniu */
     }
 
     .error-message {
-      border: 1px solid #ff0000;
-      background-color: #ffe0e0;
-      color: #ff0000;
-      padding: 10px;
-      margin-bottom: 10px;
+      color: #ff0000; /* Czerwony */
+      margin-top: 10px;
+      font-size: 16px;
+      text-align: left;
     }
   </style>
 </head>
@@ -112,8 +146,8 @@
 <header>
   <a th:href="@{/home}" class="title">Flash Cards</a>
 </header>
-<h2>Log in</h2>
 <form action="/login" method="post">
+  <h2>Log in</h2>
   <div class="login-element">
     <label for="username">User name</label>
     <input type="text" id="username" name="username" required />

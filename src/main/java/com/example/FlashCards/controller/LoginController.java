@@ -36,7 +36,7 @@ public class LoginController {
         }
     }
 
-    @GetMapping("/log-out")
+    @GetMapping("/logout")
     public String logOut(HttpSession httpSession) {
         httpSession.invalidate();
         return "redirect:/login";

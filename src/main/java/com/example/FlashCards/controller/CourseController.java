@@ -1,9 +1,14 @@
 package com.example.FlashCards.controller;
 
 import com.example.FlashCards.ExcelProcessor;
+import com.example.FlashCards.LoginSession;
+import com.example.FlashCards.model.Course;
 import com.example.FlashCards.model.Word;
 import com.example.FlashCards.model.WordDTO;
+import com.example.FlashCards.service.CourseService;
 import com.example.FlashCards.service.WordService;
+import jakarta.servlet.http.HttpSession;
+import org.atmosphere.config.service.Get;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,29 +29,51 @@ public class CourseController {
     @Autowired
     private WordService wordService;
 
-    @GetMapping("/words")
-    public String getWords(Model model) {
-        List<Word> words = wordService.getAllWords();
-        model.addAttribute("words", words);
-        return "words";
+    @Autowired
+    private CourseService courseService;
+
+    @Autowired
+    private LoginSession loginSession;
+
+    private List<WordDTO> wordDTOList;
+
+    @GetMapping("/courses/new")
+    public String getCreateCoursePage(Model model) {
+        model.addAttribute("wordsDTOList", wordDTOList);
+        return "createCourse";
     }
 
-    @PostMapping("/upload")
-    public String uploadFile(@RequestParam("file") MultipartFile file) {
+    @PostMapping("/courses/new")
+    public String addCourse(Course course, HttpSession session){
+        Long userId = (Long) session.getAttribute("userId");
+        course.setUserId(userId);
+
+        wordService.saveWordsToDatabase(wordDTOList, course.getCourseId());
+        courseService.saveCourse(course);
+
+        return "createCourse";
+    }
+
+    @PostMapping("/courses/words")
+    public String uploadFile(@RequestParam("file") MultipartFile file, Model model) {
         try {
             String originalFileName = file.getOriginalFilename();
-            String tempDir = System.getProperty("java.io.tmpdir"); // Katalog tymczasowy serwera
+            String tempDir = System.getProperty("java.io.tmpdir");
             String filePath = tempDir + File.separator + originalFileName;
 
             File destFile = new File(filePath);
             file.transferTo(destFile);
 
-            List<WordDTO> wordDTOList = excelProcessor.processExcelFile(filePath);
-            wordService.saveWordsToDatabase(wordDTOList);
-            return "redirect:/words";
+            wordDTOList = excelProcessor.processExcelFile(filePath);
+
+
+            return "redirect:/courses/new";
+
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/error";
         }
     }
+
+
 }

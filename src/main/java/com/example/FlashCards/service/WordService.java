@@ -17,10 +17,10 @@ public class WordService {
     @Autowired
     private WordMapper wordMapper;
 
-    public void saveWordsToDatabase(List<WordDTO> words) {
+    public void saveWordsToDatabase(List<WordDTO> words, Long courseId) {
 
         words.stream()
-                .forEach(wordDTO -> wordRepository.save(wordMapper.mapToEntity(wordDTO)));
+                .forEach(wordDTO -> wordRepository.save(wordMapper.mapToEntity(wordDTO)).setCourseId(courseId));
     }
 
     public List<Word> getAllWords() {

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Course</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-1HgtlvYw+UGvG5UJxWg0alWhjhId3NK3j1i4JAvFj9n8PSejFXF6gW6FfnC3gy4I+3XkE7LRz0PXhxE+D36Ig==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+            padding: 0;
+            background: linear-gradient(135deg, #ffe080, #ffbf80);
+        }
+
+        /* Nagłówek strony */
+        header {
+            background-color: #ffecb3; /* Jasny pastelowy żółty */
+            color: #634b63; /* Ciemny pastelowy fiolet */
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Cień na nagłówku */
+            margin-bottom: 30px;
+        }
+
+        .title {
+            text-decoration: none;
+            color: #634b63; /* Ciemny pastelowy fiolet */
+            font-size: 32px;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        /* Formularz dodawania kursu */
+        h2 {
+            text-align: left;
+            color: #634b63; /* Ciemny pastelowy fiolet */
+            margin-bottom: 20px;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fffacd; /* Pastelowy żółty */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #634b63; /* Ciemny pastelowy fiolet */
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+
+        .login-element {
+            margin-top: 15px;
+        }
+
+        .button {
+            margin-top: 20px;
+            display: block;
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: #ffe080; /* Jasny pastelowy żółty */
+            color: #634b63; /* Ciemny pastelowy fiolet */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Cień na przycisku */
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .button:hover {
+            background-color: #ffd700; /* Świecący złoty */
+            transform: scale(1.05); /* Powiększenie przycisku po najechaniu */
+        }
+
+        .error-message {
+            color: #ff0000; /* Czerwony */
+            margin-top: 10px;
+            font-size: 16px;
+            text-align: left;
+        }
+        .forms {
+        display: flex;
+        justify-content: space-between;
+         }
+
+          select {
+        width: 100%; /* Ustawienie szerokości na 100%, aby dopasować do pola tekstowego */
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+        background-color: #fff;
+        color: #555;
+    }
+
+
+    select::-ms-expand {
+        display: none;
+    }
+
+
+    select:before {
+        content: '\f078';
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+        padding-right: 10px;
+        color: #555;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+
+    select option {
+        background-color: #fff;
+        color: #555;
+    }
+
+     table {
+            border-collapse: collapse;
+            width: 100%;
+            border: 2px solid #ddd;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            margin-top: 30px;
+        }
+
+    </style>
+</head>
+<body>
+<header>
+    <a th:href="@{/home}" class="title">Flash Cards</a>
+</header>
+<div class="forms">
+<form method="post" action="/courses/new" enctype="multipart/form-data">
+    <h2>Add Course</h2>
+    <div class="login-element">
+        <label for="language">Language</label>
+        <select id="language" name="language" required>
+            <option value="" disabled selected>Select language</option>
+            <th:block th:each="language : ${T(com.example.FlashCards.model.Idiom).values()}">
+                <option th:value="${language}" th:text="${language}" />
+            </th:block>
+        </select>
+    </div>
+    <div class="login-element">
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" required />
+    </div>
+    <div class="login-element">
+        <label for="level">Level</label>
+        <select id="level" name="level" required>
+            <option value="" disabled selected>Select level</option>
+            <th:block th:each="level : ${T(com.example.FlashCards.model.Level).values()}">
+                <option th:value="${level}" th:text="${level}" />
+            </th:block>
+        </select>
+    </div>
+
+    <div class="login-element">
+        <label for="topic">Topic</label>
+        <select id="topic" name="topic" required>
+            <option value="" disabled selected>Select topic</option>
+            <th:block th:each="topic : ${T(com.example.FlashCards.model.Subject).values()}">
+                <option th:value="${topic}" th:text="${topic}" />
+            </th:block>
+        </select>
+    </div>
+
+    <div class="login-element">
+        <button type="submit" class="button">Save Course</button>
+    </div>
+
+</form>
+
+    <div class="container">
+        <h1>Upload Excel File</h1>
+        <form method="post" action="/courses/words" enctype="multipart/form-data">
+            <input type="file" name="file" accept=".xlsx">
+            <br><br>
+            <button type="submit" class="button">Upload</button>
+        </form>
+    </div>
+
+
+    <form th:if="${not #lists.isEmpty(wordsDTOList)}">
+        <h1>Word list</h1>
+        <table>
+            <tr>
+                <th>Word</th>
+                <th>Word translated</th>
+            </tr>
+            <th:block th:each="word : ${wordsDTOList}">
+                <tr>
+                    <td th:text="${word.word}"></td>
+                    <td th:text="${word.translatedWord}"></td>
+                </tr>
+            </th:block>
+        </table>
+    </form>
+
+</div>
+</body>
+</html>

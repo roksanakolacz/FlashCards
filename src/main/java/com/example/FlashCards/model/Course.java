@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -15,7 +18,7 @@ public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long courseId;
 
     @Enumerated(EnumType.STRING)
     private Idiom language;
@@ -30,14 +33,18 @@ public class Course {
 
     private Long userId;
 
+    private LocalDateTime date;
+
     @OneToMany
     @JoinColumn(name="courseId")
     private List<Word> wordList;
 
-    public Course(Idiom language, String title, Level level, Subject subject) {
+    public Course(Idiom language, String title, Level level, Subject subject, List<Word> wordList) {
         this.language = language;
         this.title = title;
         this.level = level;
         this.subject = subject;
+        this.date = LocalDateTime.now();
+        this.wordList = wordList;
     }
 }

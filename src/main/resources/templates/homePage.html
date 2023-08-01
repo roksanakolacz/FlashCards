@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-1HgtlvYw+UGvG5UJxWg0alWhjhId3NK3j1i4JAvFj9n8PSejFXF6gW6FfnC3gy4I+3XkE7LRz0PXhxE+D36Ig==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <title>Flash Cards - Learn and Practice</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #ffe080, #ffbf80); /* Tło strony - gradient cieniowany w cieplejszych odcieniach */
+    }
+
+    header {
+      background-color: #ffecb3; /* Jasny pastelowy żółty */
+      color: #e162e1; /* Ciemny pastelowy fiolet */
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Cień na nagłówku */
+      margin-bottom: 30px;
+    }
+
+    .title {
+      text-decoration: none;
+      color: #605560; /* Ciemny pastelowy fiolet */
+      font-size: 30px;
+      font-weight: bold;
+      text-align: left;
+    }
+
+    .user-info {
+      font-size: 18px;
+      color: #634b63; /* Ciemny pastelowy fiolet */
+    }
+
+    .logout-icon {
+      display: inline-block;
+      padding: 10px;
+      border-radius: 50%;
+      background-color: #f2f2f2; /* Delikatny odcień szarości */
+      color: #634b63; /* Ciemny pastelowy fiolet */
+      font-size: 18px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Cień na ikonie */
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .logout-icon:hover {
+      background-color: #e4f0e4; /* Delikatny odcień zielonego */
+      transform: scale(1.1); /* Powiększenie ikony po najechaniu */
+    }
+
+    .tiles-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 50px;
+    }
+
+    .tile {
+      width: 300px;
+      height: 150px;
+      margin: 20px;
+      padding: 20px;
+      background-color: #fffacd;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s;
+      box-shadow: 0 1px 2px rgba(159, 95, 95, 0.1); /* Cień na kafelku */
+    }
+
+    .tile:hover {
+      background-color: #fffebbfd; /* Delikatny odcień zielonego */
+    }
+
+    .tile h2 {
+      font-size: 24px;
+      color: #756b6b; /* Ciemny pastelowy fiolet */
+    }
+
+    .word-section {
+      margin-top: 50px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding-left: 20px;
+    }
+
+    .word-frame {
+      background-color: #ffecb3; /* Jasny pastelowy żółty */
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Cień na ramce */
+    }
+
+    .translation-frame {
+      background-color: #f0e68c; /* Jasnożółty pastel */
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 10px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Cień na ramce */
+    }
+
+    /* Dodane style dla HomePage */
+    .home-page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .greeting {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <a th:href="@{/home}" class="title">Flash Cards</a>
+
+  <div class="user-info">
+    Hi, <span th:text="${username}"></span>
+  </div>
+
+  <a th:href="@{/logout}" class="logout-icon" title="Logout">
+    <i class="fas fa-sign-out-alt"></i>
+  </a>
+
+</header>
+<div class="home-page">
+  <div class="tiles-container">
+    <div class="tile">
+      <h2><a th:href="@{/courses/new}">Create Course</a></h2>
+    </div>
+    <div class="tile">
+      <h2><a th:href="@{/browse_courses}">Browse Courses</a></h2>
+    </div>
+    <div class="tile">
+      <h2><a th:href="@{/practise_random_words}">Practice Random Words</a></h2>
+    </div>
+  </div>
+  <div class="word-section">
+    <div class="word-frame">
+      <h3>Word for today: <span th:text="${dailyWord.word}" style="color: #634b63;"></span></h3>
+    </div>
+    <div class="translation-frame">
+      <h3>Translation: <span th:text="${dailyWord.translation}" style="color: #634b63;"></span></h3>
+    </div>
+    <div class="translation-frame">
+      <h3>Usage Example: <span th:text="${dailyWord.sentences}" style="color: #634b63;"></span></h3>
+    </div>
+  </div>
+</div>
+</body>
+</html>
