@@ -1,5 +1,6 @@
 package com.example.FlashCards.model;
 
+import com.example.FlashCards.model.questions.Question;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,6 +27,10 @@ public class Word {
 
     private Boolean isTrained = false;
     private LocalDateTime date = LocalDateTime.now();;
+
+    @OneToMany
+    @JoinColumn(name = "id")
+    private List<Question> questions;
 
     public Word(String word, String translatedWord, Long courseId) {
         this.word = word;

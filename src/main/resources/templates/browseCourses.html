@@ -66,22 +66,38 @@
             margin-bottom: 20px;
         }
           .button {
+            display: inline-block;
+            padding: 10px 20px;
             margin-top: 20px;
-            display: block;
             width: 100%;
             padding: 12px;
             font-size: 18px;
             font-weight: bold;
-            background-color: #ffe080; /* Jasny pastelowy żółty */
-            color: #634b63; /* Ciemny pastelowy fiolet */
+            background-color: #ffe080;
+            color: #634b63;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             text-align: center;
             text-decoration: none;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Cień na przycisku */
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); 
             transition: background-color 0.3s, transform 0.2s;
         }
+
+         .classic-flashcard {
+            background-color: #f7cd39;
+            color: #ffffff;
+            margin-right: 10px;
+        }
+
+        .start-course {
+            background-color: #e7e73c;
+            color: #ffffff;
+        }
+        .buttons{
+            display: flex;
+        }
+
     </style>
 </head>
 <body>
@@ -98,6 +114,8 @@
             <th>Level</th>
             <th>Topic</th>
             <th>Number of words</th>
+            <th>Number of words trained</th>
+            <th>Result</th>
             <th></th>
         </tr>
         <th:block th:each="course : ${courses}">
@@ -107,10 +125,15 @@
                 <td th:text="${course.level}"></td>
                 <td th:text="${course.subject}"></td>
                 <td th:text="${course.getWordCount()}"></td>
+                <td></td>
+                <td th:if="${not #strings.isEmpty(flashCardsProgress)}">
+                    <span th:text="${flashCardsProgress}"></span>
+                </td>
                 <td>
-                    <form method="post" th:action="@{'/train/' + ${course.courseId}}">
-                        <button type="submit" class="button">Train</button>
-                    </form>
+                    <div class="buttons">
+                    <a class="button classic-flashcard" th:href="@{'/train/flashcards/' + ${course.courseId}}">Classic flashcard</a>
+                    <a class="button start-course" th:href="@{'/train/course/' + ${course.courseId}}">Start course</a>
+                    </div>
                 </td>
             </tr>
         </th:block>

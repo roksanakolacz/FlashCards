@@ -29,4 +29,8 @@ public class WordService {
     public List<Word> getAllWords() {
         return wordRepository.findAll();
     }
+
+    public Boolean isTranslationCorrect(Word word, String translation){
+        return (translation == word.getWord());
+    }
 }

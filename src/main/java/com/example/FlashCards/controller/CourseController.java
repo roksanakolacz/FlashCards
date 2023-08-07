@@ -69,9 +69,6 @@ public class CourseController {
 
         model.addAttribute("courseAdded", true);
 
-
-
-
         return "createCourse";
     }
 
