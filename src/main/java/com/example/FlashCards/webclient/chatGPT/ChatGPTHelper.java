@@ -1,4 +1,4 @@
-package com.example.FlashCards;
+package com.example.FlashCards.webclient.chatGPT;
 
 import com.example.FlashCards.model.Idiom;
 import com.example.FlashCards.model.Word;
@@ -19,7 +19,7 @@ public class ChatGPTHelper {
 
     public ChatGPTHelper() {
 
-        service = new OpenAiService("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", Duration.ofSeconds(30));
+        service = new OpenAiService("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", Duration.ofSeconds(30));
 
     }
 

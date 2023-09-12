@@ -116,7 +116,7 @@
             <th>Number of words</th>
             <th>Number of words trained</th>
             <th>Result</th>
-            <th></th>
+            <th>Options</th>
         </tr>
         <th:block th:each="course : ${courses}">
             <tr>
@@ -134,6 +134,10 @@
                     <a class="button classic-flashcard" th:href="@{'/train/flashcards/' + ${course.courseId}}">Classic flashcard</a>
                     <a class="button start-course" th:href="@{'/train/course/' + ${course.courseId}}">Start course</a>
                     </div>
+                </td>
+                <td>
+                    <a class="button start-course" th:href="@{'/courses/' + ${course.courseId}+ '/words'}">Display words</a>
+                    <a class="button classic-flashcard" th:href="@{'/courses/' + ${course.courseId}}" >Delete Course</a>
                 </td>
             </tr>
         </th:block>

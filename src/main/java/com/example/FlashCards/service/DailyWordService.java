@@ -1,16 +1,14 @@
 package com.example.FlashCards.service;
 
-import com.example.FlashCards.ChatGPTHelper;
+import com.example.FlashCards.webclient.chatGPT.ChatGPTHelper;
 import com.example.FlashCards.LoginSession;
 import com.example.FlashCards.model.DailyWord;
 import com.example.FlashCards.model.Idiom;
 import com.example.FlashCards.repository.DailyWordRepository;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 @Service
 public class DailyWordService {

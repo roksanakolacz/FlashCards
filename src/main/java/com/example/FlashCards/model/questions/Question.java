@@ -1,6 +1,5 @@
 package com.example.FlashCards.model.questions;
 
-import com.example.FlashCards.model.Word;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-1HgtlvYw+UGvG5UJxWg0alWhjhId3NK3j1i4JAvFj9n8PSejFXF6gW6FfnC3gy4I+3XkE7LRz0PXhxE+D36Ig==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+            padding: 0;
+            background: linear-gradient(135deg, #ffe080, #ffbf80);
+        }
+
+        /* Nagłówek strony */
+        header {
+            background-color: #ffecb3; /* Jasny pastelowy żółty */
+            color: #634b63; /* Ciemny pastelowy fiolet */
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Cień na nagłówku */
+            margin-bottom: 30px;
+        }
+
+        .title {
+            text-decoration: none;
+            color: #634b63; /* Ciemny pastelowy fiolet */
+            font-size: 32px;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        /* Formularz dodawania kursu */
+        h2 {
+            text-align: left;
+            color: #634b63; /* Ciemny pastelowy fiolet */
+            margin-bottom: 20px;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fffacd; /* Pastelowy żółty */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+             .forms {
+        display: flex;
+        justify-content: space-between;
+         }
+
+         table {
+            border-collapse: collapse;
+            width: 100%;
+            border: 2px solid #ddd;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #ffe080;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            margin-top: 30px;
+        }
+
+ .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: #ffe080;
+            color: #634b63;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+         .classic-flashcard {
+            background-color: #f7cd39;
+            color: #ffffff;
+            margin-right: 10px;
+        }
+
+        .start-course {
+            background-color: #e7e73c;
+            color: #ffffff;
+        }
+        .buttons{
+            display: flex;
+        }
+  </style>
+  <title>Flash Cards - Learn and Practice</title>
+</head>
+<body>
+
+<header>
+  <a th:href="@{/home}" class="title">Flash Cards</a>
+
+  <div class="user-info">
+    Hi, <span th:text="${username}"></span>
+  </div>
+
+  <a th:href="@{/logout}" class="logout-icon" title="Logout">
+    <i class="fas fa-sign-out-alt"></i>
+  </a>
+
+</header>
+
+<form>
+  <h2>Word list</h2>
+  <table>
+    <tr>
+      <th>Word</th>
+      <th>Word translated</th>
+      <th>Action</th>
+    </tr>
+    <tr th:each="word, rowStat : ${words}" th:attr="data-word-id=${word.id}">
+      <td>
+        <input type="text" th:value="${word.word}" readonly="readonly" />
+      </td>
+      <td>
+        <input type="text" th:value="${word.translatedWord}" readonly="readonly" />
+      </td>
+      <td>
+        <button type="button" class="button start-course" onclick="editRow(this);">Edit</button>
+        <button type="button" class="button save-button" style="display: none;" onclick="saveRow(this);">Save</button>
+        <a class="button start-course" th:href="@{'/courses/' + ${courseId} + '/words/' + ${word.id}}" >Delete</a>
+      </td>
+    </tr>
+  </table>
+
+</form>
+
+
+<script>
+   function editRow(button) {
+    var row = button.closest('tr');
+    var inputs = row.querySelectorAll('input[type="text"]');
+
+    // Aktywuj edycję wszystkich pól input w tej konkretnej linii
+    inputs.forEach(function(input) {
+        input.removeAttribute('readonly');
+    });
+
+    // Zmień przycisk "Edit" na "Save"
+    button.textContent = 'Save';
+    button.classList.remove('start-course');
+    button.classList.add('save-button');
+
+    // Dezaktywuj pozostałe przyciski "Edit" na tej stronie
+    var editButtons = document.querySelectorAll('.button.start-course');
+    editButtons.forEach(function(editButton) {
+        editButton.setAttribute('disabled', 'disabled');
+    });
+
+    // Aktywuj przycisk "Save" tylko w tej konkretnej linii
+    button.removeAttribute('disabled');
+    button.addEventListener('click', function() {
+        saveRow(this);
+    });
+}
+
+  function saveRow(button) {
+    var row = button.closest('tr');
+    var inputs = row.querySelectorAll('input[type="text"]');
+    var wordId = row.getAttribute('data-word-id');
+
+    var editedWord = {
+      word: inputs[0].value,
+      translatedWord: inputs[1].value
+    };
+
+    // Wyślij dane do kontrolera za pomocą fetch
+    fetch('/words/' + wordId, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(editedWord)
+    })
+    .then(response => response.json())
+    .then(data => {
+      // Obsługa sukcesu - tutaj można dodać odpowiednie akcje po zapisaniu
+      console.log('Zaktualizowano słowo:', data);
+
+      inputs.forEach(function(input) {
+        input.setAttribute('readonly', 'readonly');
+      });
+      button.textContent = 'Edit';
+      button.classList.remove('save-button');
+      button.classList.add('start-course');
+
+      var editButtons = document.querySelectorAll('.button.start-course');
+      editButtons.forEach(function(editButton) {
+        editButton.removeAttribute('disabled');
+      });
+
+      button.removeEventListener('click', saveRow);
+      button.addEventListener('click', function() {
+        editRow(this);
+      });
+    })
+    .catch(error => {
+      // Obsługa błędu - tutaj można wyświetlić komunikat o błędzie
+      console.error('Błąd podczas aktualizacji słowa:', error);
+    });
+  }
+
+
+</script>
+
+</body>
+</html>

@@ -1,20 +1,17 @@
 package com.example.FlashCards.controller;
 
 import com.example.FlashCards.ExcelProcessor;
-import com.example.FlashCards.LoginSession;
 import com.example.FlashCards.model.Course;
 import com.example.FlashCards.model.Word;
-import com.example.FlashCards.model.WordDTO;
+import com.example.FlashCards.model.dto.WordDTO;
 import com.example.FlashCards.service.CourseService;
 import com.example.FlashCards.service.WordService;
 import jakarta.servlet.http.HttpSession;
-import org.atmosphere.config.service.Get;
+import org.atmosphere.config.service.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -44,7 +41,7 @@ public class CourseController {
 
 
     @GetMapping("/courses/new")
-    public String getCreateCoursePage(Model model, HttpSession session) {
+    public String addCourse(Model model, HttpSession session) {
         List<WordDTO> wordDTOList = (List<WordDTO>) session.getAttribute("wordList");
 
         model.addAttribute("wordsDTOList", wordDTOList);
@@ -93,6 +90,16 @@ public class CourseController {
             e.printStackTrace();
             return "redirect:/error";
         }
+    }
+
+
+
+
+
+    @GetMapping("/courses/{id}")
+    public String deleteCourses(@PathVariable Long id){
+        courseService.deleteCourse(id);
+        return "redirect:/courses";
     }
 
 
