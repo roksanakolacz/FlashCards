@@ -1,12 +1,14 @@
 package com.example.FlashCards.model;
 
 import com.example.FlashCards.model.questions.Question;
+import com.example.FlashCards.model.questions.QuestionForeignWordABCD;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -75,6 +77,14 @@ public class Course {
             return 0;
         }
         return (getTrainedWordCount()/getWordCount());
+    }
+
+    public void addQuestion(Question question) {
+        if (questions == null) {
+            questions = new ArrayList<>();
+        }
+        questions.add(question);
+        question.setCourseId(this.getCourseId());
     }
 
 }

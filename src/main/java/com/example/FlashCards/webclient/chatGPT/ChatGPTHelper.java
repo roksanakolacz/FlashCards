@@ -19,16 +19,16 @@ public class ChatGPTHelper {
 
     public ChatGPTHelper() {
 
-        service = new OpenAiService("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", Duration.ofSeconds(30));
+        service = new OpenAiService("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", Duration.ofSeconds(30));
 
     }
 
 
-    public String findSimiliarWord(Word word){
+    public String findSimiliarWord(String word){
         String question = "I want to receive from you only one word as an answer. Do not add any introduction " +
                 "to your answer. Only one word every time. Find a smiliar word in the same language for the given word. " +
-                "It is important that it is in the same language. It can be a smiliar meaning, from the same category, " +
-                "or similiar written. The word is " + word.getWord().toLowerCase();
+                "It is important that it is in the same language. It can not be a synonim, only the word from similiar category, " +
+                "or similiar written. The word is " + word.toLowerCase();
         return removeSpecialCharacters(askChatGPT(question));
     }
     

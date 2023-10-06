@@ -5,6 +5,7 @@ import com.example.FlashCards.model.Course;
 import com.example.FlashCards.model.Word;
 import com.example.FlashCards.model.dto.WordDTO;
 import com.example.FlashCards.service.CourseService;
+import com.example.FlashCards.service.QuestionService;
 import com.example.FlashCards.service.WordService;
 import jakarta.servlet.http.HttpSession;
 import org.atmosphere.config.service.Post;
@@ -29,6 +30,9 @@ public class CourseController {
 
     @Autowired
     private CourseService courseService;
+
+    @Autowired
+    private QuestionService questionService;
 
 
     @GetMapping("/courses")
@@ -62,7 +66,11 @@ public class CourseController {
         course.setUserId(userId);
         Course savedCourse = courseService.saveCourse(course);
 
-        wordService.saveWordsToDatabase(wordDTOList, savedCourse.getCourseId());
+        List<Word> savedWords =  wordService.saveWordsToDatabase(wordDTOList, savedCourse.getCourseId());
+
+        questionService.saveQuestions(savedWords, savedCourse.getCourseId());
+
+
 
         model.addAttribute("courseAdded", true);
 

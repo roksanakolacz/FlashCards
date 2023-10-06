@@ -1,14 +1,14 @@
 package com.example.FlashCards.model.questions;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "question_type")
 @Getter
 @Setter
 public abstract class Question {
@@ -16,17 +16,13 @@ public abstract class Question {
     @GeneratedValue
     private Long questionId;
     private String content;
+
+    @ElementCollection
     private List<String> options;
-    private int correctOptionIndex;
+    private String correctOption;
 
     private Long courseId;
 
     private Long wordId;
 
-    public boolean isCorrect(int selectedOptionIndex) {
-        return selectedOptionIndex == correctOptionIndex;
-    }
-
-
-   // public abstract String generateQuestionForWord(Word word);
 }

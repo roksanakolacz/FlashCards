@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,13 +20,19 @@ public class WordService {
     @Autowired
     private WordMapper wordMapper;
 
-    public void saveWordsToDatabase(List<WordDTO> words, Long courseId) {
+    public List<Word> saveWordsToDatabase(List<WordDTO> words, Long courseId) {
+
+        List<Word> savedWords = new ArrayList<>();
 
         for (WordDTO wordDTO : words) {
             Word wordEntity = wordMapper.mapToEntity(wordDTO);
             wordEntity.setCourseId(courseId);
             wordRepository.save(wordEntity);
+            savedWords.add(wordEntity);
         }
+
+        return savedWords;
+
     }
 
     public Word getWord(Long id){

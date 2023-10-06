@@ -2,6 +2,8 @@ package com.example.FlashCards.service;
 
 import com.example.FlashCards.model.Course;
 import com.example.FlashCards.model.Word;
+import com.example.FlashCards.model.questions.Question;
+import com.example.FlashCards.model.questions.QuestionForeignWordABCD;
 import com.example.FlashCards.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +36,9 @@ public class CourseService {
         return courseRepository.findById(courseId).get().getWords();
     }
 
+    public List<Question> getQuestions(Long courseId){
+        return courseRepository.findById(courseId).get().getQuestions();
+    }
 
     public void deleteCourse(Long id) {
         courseRepository.deleteById(id);
