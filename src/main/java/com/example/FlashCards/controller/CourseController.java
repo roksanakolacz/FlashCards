@@ -8,6 +8,7 @@ import com.example.FlashCards.service.CourseService;
 import com.example.FlashCards.service.QuestionService;
 import com.example.FlashCards.service.WordService;
 import jakarta.servlet.http.HttpSession;
+import org.atmosphere.config.service.Get;
 import org.atmosphere.config.service.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,6 +34,9 @@ public class CourseController {
 
     @Autowired
     private QuestionService questionService;
+
+
+
 
 
     @GetMapping("/courses")

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Flash Cards</title>
-    <style>
+  <meta charset="UTF-8">
+  <title>Flash Cards</title>
+  <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
@@ -63,8 +63,6 @@
             transition: background-color 0.3s, transform 0.2s;
         }
 
-
-
         .correct {
             background-color: #4CAF50; /* Zielony kolor dla poprawnej odpowiedzi */
         }
@@ -76,29 +74,30 @@
 </head>
 <body>
 <header>
-    <a th:href="@{/home}" class="title">Flash Cards</a>
+  <a th:href="@{/home}" class="title">Flash Cards</a>
 </header>
 
-<form method="post" th:action="@{'/train/course/' + ${course.courseId}} + '/check'">
-    <h2>Let's train new words!</h2>
-    <div>
-        <p th:text="${question.content}"></p>
-    </div>
-    <div class="button-container">
-        <button class="button" th:each="option : ${options}" th:text="${option}" name="meaning" type="submit" th:value="${option}" th:disabled="${questionSession.currentIndexChecked}"></button>
-    </div>
+<form method="get" th:action="@{/courses/form/questions/check}">
+  <h2>Let's train new words!</h2>
+  <div>
+    <p th:text="${question.content}"></p>
+  </div>
+  <div class="button-container">
+    <button class="button" th:each="option : ${options}" th:text="${option}" name="meaning" type="submit" th:value="${option}" th:disabled="${questionSession.currentIndexChecked}"></button>
+  </div>
 
-    <div class= "correct" th:if="${isCorrect}">
-        <p>Correct! Go next!</p>
-    </div>
-    <div class= "incorrect"  th:if="${isIncorrect}">
-        <p>Wrong answer, try again</p>
-    </div>
+  <div class= "correct" th:if="${isCorrect}">
+    <p>Correct! Go next!</p>
+  </div>
+  <div class= "incorrect"  th:if="${isIncorrect}">
+    <p>Wrong answer, try again</p>
+  </div>
 
 </form>
 
-<form method="get" th:if="${question != null}" th:action="@{'/train/course/' + ${course.courseId}}">
-    <button class="button" type="submit">Next question</button>
+
+<form method="get" th:if="${question != null}" th:action="@{/courses/form/questions}">
+  <button class="button" type="submit">Next question</button>
 </form>
 
 </body>

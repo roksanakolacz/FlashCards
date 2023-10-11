@@ -32,6 +32,13 @@ public class QuestionService {
 
     @Autowired
     private final CourseRepository courseRepository;
+
+    public List<String> getQuestionOptions(Long questionId) {
+        Question question = questionRepository.findById(questionId).orElse(null);
+        return question != null ? question.getOptions() : Collections.emptyList();
+    }
+
+
     public void saveQuestions(List<Word> wordDTOList, Long courseId) {
         List<Question> questions = new ArrayList<>();
         List<QuestionForeignWordABCD> questionForeignWordABCDS = generateQuestions(wordDTOList);
@@ -50,10 +57,6 @@ public class QuestionService {
 
     }
 
-    public List<String> getQuestionOptions(Long questionId) {
-        Question question = questionRepository.findById(questionId).orElse(null);
-        return question != null ? question.getOptions() : Collections.emptyList();
-    }
 
     public List<QuestionForeignWordABCD> generateQuestions(List<Word> wordDTOList){
         return generateQuestionForeignWordABCD(wordDTOList);
@@ -65,8 +68,6 @@ public class QuestionService {
         for(Word word : words){
 
             String content = String.format("Guess the translation of word: %s", word.getWord());
-
-
 
             List<String> options = new ArrayList<>();
             options.add(word.getTranslatedWord());
@@ -80,10 +81,33 @@ public class QuestionService {
             options.add(newList.get(1).getTranslatedWord());
             Collections.shuffle(options);
 
-
-
             String correctOption = word.getTranslatedWord();
 
+            QuestionForeignWordABCD question = new QuestionForeignWordABCD(content, options, correctOption, word.getCourseId(), word.getId());
+            questionForeignWordABCDS.add(question);
+        }
+
+        return questionForeignWordABCDS;
+
+    }
+
+
+    public List<QuestionForeignWordABCD> generateRandomQuestion(List<Word> words){
+        List<QuestionForeignWordABCD> questionForeignWordABCDS = new ArrayList<>();
+
+        for(Word word : words){
+
+            String content = String.format("Guess the translation of word: %s", word.getWord());
+
+            List<String> options = new ArrayList<>();
+            options.add(word.getTranslatedWord());
+            options.add(chatGPTHelper.findSimiliarWord(word.getTranslatedWord()));
+            options.add(chatGPTHelper.findSimiliarWord(word.getTranslatedWord()));
+            options.add(chatGPTHelper.findSimiliarWord(word.getTranslatedWord()));
+
+            Collections.shuffle(options);
+
+            String correctOption = word.getTranslatedWord();
 
             QuestionForeignWordABCD question = new QuestionForeignWordABCD(content, options, correctOption, word.getCourseId(), word.getId());
             questionForeignWordABCDS.add(question);
