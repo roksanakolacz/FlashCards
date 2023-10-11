@@ -1,16 +1,29 @@
 package com.example.FlashCards.controller;
 
+import com.example.FlashCards.model.Course;
 import com.example.FlashCards.model.DailyWord;
 import com.example.FlashCards.model.Idiom;
+import com.example.FlashCards.model.Word;
+import com.example.FlashCards.model.questions.Question;
 import com.example.FlashCards.service.DailyWordService;
+import com.example.FlashCards.service.QuestionService;
 import com.example.FlashCards.service.UserService;
+import com.example.FlashCards.service.WordService;
 import jakarta.servlet.http.HttpSession;
+import org.hibernate.Hibernate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.List;
 
 @Controller
 public class HomeController {
@@ -20,12 +33,18 @@ public class HomeController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private QuestionService questionService;
+
+    @Autowired
+    private WordService wordService;
+
+    Logger logger = LoggerFactory.getLogger(QuestionsController.class);
 
 
-    @GetMapping("/random-course")
-    public String getRandomWordCourse() {
-        return "createRandomWordCourse";
-    }
+
+
+
 
 
     @GetMapping("/home")

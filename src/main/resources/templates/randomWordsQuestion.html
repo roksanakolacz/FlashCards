@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Flash Cards</title>
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+            padding: 0;
+            background: linear-gradient(135deg, #ffe080, #ffbf80);
+        }
+
+        header {
+            background-color: #ffecb3;
+            color: #634b63;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            text-align: left;
+            color: #634b63;
+            margin-bottom: 20px;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fffacd;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .button {
+            margin-top: 10px;
+            display: block;
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            background-color: orange;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .correct {
+            background-color: #4CAF50; /* Zielony kolor dla poprawnej odpowiedzi */
+        }
+
+        .incorrect {
+            background-color: #FF5733; /* Czerwony kolor dla złej odpowiedzi */
+        }
+    </style>
+</head>
+<body>
+<header>
+  <a th:href="@{/home}" class="title">Flash Cards</a>
+</header>
+
+<form method="get" th:action="@{/courses/form/questions/check}">
+  <h2>Let's train new words!</h2>
+  <div>
+    <p th:text="${question.content}"></p>
+  </div>
+  <div class="button-container">
+    <button class="button" th:each="option : ${options}" th:text="${option}" name="meaning" type="submit" th:value="${option}" th:disabled="${questionSession.currentIndexChecked}"></button>
+  </div>
+
+  <div class= "correct" th:if="${isCorrect}">
+    <p>Correct! Go next!</p>
+  </div>
+  <div class= "incorrect"  th:if="${isIncorrect}">
+    <p>Wrong answer, try again</p>
+  </div>
+
+</form>
+
+
+<form method="get" th:if="${question != null}" th:action="@{/courses/form/questions}">
+  <button class="button" type="submit">Next question</button>
+</form>
+
+</body>
+</html>

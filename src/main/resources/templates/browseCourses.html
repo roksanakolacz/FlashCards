@@ -114,9 +114,8 @@
             <th>Level</th>
             <th>Topic</th>
             <th>Number of words</th>
-            <th>Number of words trained</th>
-            <th>Result</th>
-            <th></th>
+            <th>Train</th>
+            <th>Options</th>
         </tr>
         <th:block th:each="course : ${courses}">
             <tr>
@@ -126,14 +125,15 @@
                 <td th:text="${course.subject}"></td>
                 <td th:text="${course.getWordCount()}"></td>
                 <td></td>
-                <td th:if="${not #strings.isEmpty(flashCardsProgress)}">
-                    <span th:text="${flashCardsProgress}"></span>
-                </td>
                 <td>
                     <div class="buttons">
-                    <a class="button classic-flashcard" th:href="@{'/train/flashcards/' + ${course.courseId}}">Classic flashcard</a>
-                    <a class="button start-course" th:href="@{'/train/course/' + ${course.courseId}}">Start course</a>
+                    <a class="button classic-flashcard" th:href="@{'/train/flashcards/' + ${course.courseId}}">Flashcard</a>
+                    <a class="button start-course" th:href="@{'/train/course/' + ${course.courseId}}">ABCD Course</a>
                     </div>
+                </td>
+                <td>
+                    <a class="button start-course" th:href="@{'/courses/' + ${course.courseId}+ '/words'}">Display words</a>
+                    <a class="button classic-flashcard" th:href="@{'/courses/' + ${course.courseId}}" >Delete Course</a>
                 </td>
             </tr>
         </th:block>

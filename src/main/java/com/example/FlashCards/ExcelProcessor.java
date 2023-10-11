@@ -1,6 +1,6 @@
 package com.example.FlashCards;
 
-import com.example.FlashCards.model.WordDTO;
+import com.example.FlashCards.model.dto.WordDTO;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.stereotype.Component;
 
@@ -26,15 +26,11 @@ public class ExcelProcessor {
                 Row row = sheet.getRow(rowIndex);
                 if (row != null) {
 
-
                     Cell wordCell = row.getCell(0);
                     Cell translatedWordCell = row.getCell(1);
 
-
-
                     String word = getStringCellValue(wordCell);
                     String translatedWord = getStringCellValue(translatedWordCell);
-
 
                     WordDTO wordObj = new WordDTO(word, translatedWord);
                     words.add(wordObj);
