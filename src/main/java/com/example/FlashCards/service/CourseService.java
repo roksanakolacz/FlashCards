@@ -76,7 +76,10 @@ public class CourseService {
         }
     }
 
-    public void deleteCourse(Long id) {
-        courseRepository.deleteById(id);
+    public void deleteCourse(Long courseId) {
+        if(courseId == null){
+            throw new IllegalArgumentException("CourseId cannot be null");
+        }
+        courseRepository.deleteById(courseId);
     }
 }

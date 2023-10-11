@@ -5,13 +5,20 @@ import com.example.FlashCards.model.questions.Question;
 import com.example.FlashCards.model.questions.QuestionForeignWordABCD;
 import com.example.FlashCards.repository.CourseRepository;
 import com.example.FlashCards.repository.UserRepository;
+import org.junit.Rule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.MockitoRule;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
@@ -20,15 +27,16 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 public class CourseServiceTest {
 
     @Mock
     private CourseRepository courseRepository;
-    @Mock
-    private UserRepository userRepository;
     @InjectMocks
     private CourseService courseService;
 
+    @Rule
+    public MockitoRule rule = MockitoJUnit.rule().silent();
 
     private Course course1;
     private Course course2;
@@ -77,6 +85,7 @@ public class CourseServiceTest {
         //given
         List<Course> expectedCourses = new ArrayList<>();
         User user = new User();
+        user.setUserId(1L);
         course1.setUserId(user.getUserId());
         course2.setUserId(user.getUserId());
         expectedCourses.add(course1);
@@ -100,6 +109,7 @@ public class CourseServiceTest {
         //given
         List<Course> expectedCourses = new ArrayList<>();
         User user = new User();
+        user.setUserId(1L);
 
         when(courseRepository.getCoursesForUser(user.getUserId())).thenReturn(Collections.emptyList());
 
@@ -284,10 +294,29 @@ public class CourseServiceTest {
 
 
     @Test
-    public void deleteCourse_correctID_courseDeleted(){
-        //given
-        //when
-        //then
+    public void deleteCourse_ValidCourseId_CourseDeleted() {
+        // Given
+        Long courseId = 1L; // Przykładowy identyfikator kursu
+        Course course = new Course(); // Tworzenie przykładowego kursu
+        when(courseRepository.findById(courseId)).thenReturn(Optional.of(course));
+
+        // When
+        courseService.deleteCourse(courseId);
+
+        // Then
+        verify(courseRepository, times(1)).deleteById(courseId);
+    }
+
+
+
+
+    @Test
+    public void deleteCourse_nullId_throwsException() {
+        // Given
+        Long courseId = null;
+
+        //When
+        assertThrows(IllegalArgumentException.class, () -> courseService.deleteCourse(courseId));
     }
 
 }
